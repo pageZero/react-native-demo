@@ -1,0 +1,27 @@
+automaticallyAdjustContentInsets：是否自动调整内部内容
+
+bounces（IOS）：回弹效果 如果为false，则内容拉到底部或头部不回弹，默认为true
+
+domStorageEnabled(Android)：仅限Android平台。指定是否开启DOM本地存储
+
+javaScriptEnabled：仅限Android平台。iOS平台JavaScript是默认开启的
+
+contentInset：内部内容偏移值 该值为一个JavaScript对象{top:number,left:number,bottom:number,right:number}
+
+source:{{uri:'网址'}}在WebView中载入一段静态的html代码或是一个url（还可以附带一些header选项）{{html:'html代码块'}}
+
+injectedJavaScript:注入的js代码，其值为字符串，如果加上了该属性，就会在webview里面执行js代码（在网页加载之前注入）
+
+mediaPlaybackRequiresUserAction：设置页面中的HTML5音视频是否需要在用户点击后再开始播放。默认值为false
+
+onNavigationStateChange：监听导航状态变化的函数（当发现浏览器地址改变时，触发事件）
+
+renderError：监听渲染页面出错的函数
+
+startInLoadingState：是否开启页面加载的状态
+
+renderLoading:webview组件正在渲染页面时触发的函数，需要同startInLoadingState一起使用，当startInLoadingState为true时该函数才起作用
+
+scrollEnabled（IOS）：表示webview里面页面是否能滚动，如果其值为true则可以滚动，否则禁止滚动
+
+scalesPageToFit：按照页面比例和内容宽高比例自动缩放内容
