@@ -1,0 +1,100 @@
+问题描述：
+在上一次AnycStorage异步存储的基础上，出现以下问题：
+在购物页面清空购物车之后，回到首页，还是会看到之前选中的商品数目。
+原因分析：当购物页面的pop操作执行后，回到首页，没有触发componentDidMount函数。
+执行了shouldComponentUpdate，componentWillUpdate,render,componentDidupdate。
+
+解决方案一：
+监听didfocus事件，focus到当前路由的时候重新加载数据
+navigatorContext.addListener('didfocus',callback)来替代。
+
+//组件将要加载
+  componentWillMount() {
+    console.log('componentWillMount');
+
+    let navigator = this.props.navigator;
+    let callback = (event) => {
+      console.log(
+        'List:事件类型',
+        {
+          route: JSON.stringify(event.data.route),
+          target: event.target,
+          type: event.type,
+        }
+      );
+
+      //返回首页之后，会触发didfocus，路由获取到焦点
+      //更新数据
+      if ('List' === event.data.route.name && 'didfocus' === event.type) {
+        //****
+      }
+    };
+
+    //监听组件的focus变化事件
+    this._listeners = [
+      navigator.navigationContext.addListener('willfocus',callback),
+      navigator.navigationContext.addListener('didfocus',callback),
+    ];
+
+  }
+
+  //卸载监听
+  componentWillUnmount() {
+    console.log('List-----componentWillUnmount');
+    this._listeners && this._listeners.forEach(listener => listener.remove());
+  }
+
+将更新count的代码写到if判断中，但是这样不太稳定。
+
+
+解决方案二：
+利用navigator在页面间传递参数。
+往下一个路由push的时候传递一个参数（用于回调），在组件pop之前，先调用次回调刷新数据。
+
+if(navigator) {
+      navigator.push({
+        name: 'GouWu',
+        component: GouWu,
+        params:{
+          flushData: function() {
+            console.log('启动flushData');
+            AsyncStorage.clear(function(err) {
+              if(!err) {
+                _this.setState({
+                  count:0,
+                });
+                alert('购物车已清空');
+              }
+            });
+
+          } //flushData             
+        }//params
+      })//navigator.push
+
+然后么修改GouWu中的清空购物车的代码
+clearStorage() {
+    let _this = this;
+    /*
+    AsyncStorage.clear(function(err) {
+      if(!err) {
+        _this.setState({
+          data:[],
+          price:0,
+        });
+        alert('购物车已清空');
+      }
+    });
+    */
+
+    //触发一下回调，让数据同步
+    console.log('点击了清空购物车');
+    if(this.props.flushData) {
+      console.log('点击了清空购物车---------触发了回调');
+      this.props.flushData();
+    }
+
+    const {navigator} = this.props;
+    if(navigator) {
+      navigator.pop();
+    }
+  }
