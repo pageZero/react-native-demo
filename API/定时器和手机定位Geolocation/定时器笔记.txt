@@ -1,0 +1,33 @@
+定时器与手机定位。
+ moment.js 时间管理的js库。
+ Geolocation：使用Geolocation时，要在AndroidManifest.xml文件中加入权限
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+需要重新编译。
+
+安装moment，用于时间管理。
+安装：npm install moment --save
+使用：import moment from 'moment';
+moment().format('YYYY-MM-DD HH:mm:ss')
+
+=======================================================================================
+
+定时器API：
+几个方法
+setTimeout:设置定时任务，隔多少毫秒去执行
+
+setInterval:设置循环执行的任务，每隔多久循环执行一次
+
+setImmediate:设置立即执行的任务
+
+requestAnimationFrame(fn):用递归来这只动画；相对于setTimeout(fn,0)来说更有优势：更够在上一次动画刷新之后执行。
+差异：requestAnimationFrame会在每次刷新之后执行一次，而后者测绘尽可能快的指向。
+
+用JS来实现动画，我们一般借助setTimeout或setInterval这两个函数。但是这两个方法有严重的性能问题。
+css3实现的动画性能虽好，但是有局限性，这个时候可以使用requestAnimationFrame,它是专门为实现高性能的帧动画而设计的API。
+
+
+====================================================================================
+
+使用计时器是要注意：
+在unmount的时候必须要清除所有用到的计时器，否则react native应用会发生致命错误。
+因为某个组件被卸载之后，计时器仍然被激活而导致错误。
