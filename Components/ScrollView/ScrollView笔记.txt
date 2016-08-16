@@ -1,0 +1,47 @@
+
+ScrollView
+
+对Android平台的ScrollView组件进行封装，并提供了触摸事件“responder”。
+
+确保ScrollView有一个固定的高度，如果要给ScrollView设置高度，可以直接给ScrollView设置高度（不推荐），或者通过为其父控件设置相关高度。
+
+使用第二种方法视图任意位置中是不能忘记加{flex:1},不然不会有效果的。
+
+也可以指定内部控件高度，不设定ScrollView高度，这样高度同样也是固定的。
+
+=============================================================================================================================
+
+属性方法：
+
+1.View相关属性样式全部继承(例如:宽和高,背景颜色,边距等相关属性样式)
+
+2.contentContainerStyle  样式风格属性(传入StyleSheet创建的Style文件)。该样式会作用于被ScrollView包裹的所有的子视图
+
+3.horizontal   表示ScrollView是横向滑动还是纵向滑动。该默认为false表示纵向滑动
+
+4.keyboardDismissMode   枚举类型表示键盘隐藏类型，可选值('none', "interactive", 'on-drag')  三个值的意义分别如下:
+
+  - none  默认值，表示在进行拖拽滑动的时候不隐藏键盘
+
+  - on-drag   表示在进行拖拽滑动开始的时候隐藏键盘
+
+  - interactive  表示当拖拽触摸移动的同时隐藏键盘，向上拖拽的时候取消隐藏。不过在Android平台上面该选项不支持，所以会和'none'一样的效果。
+
+5.keyboardShouldPersistTaps  该属性默认为false，表示如果当前是textinput控件，并且键盘是弹出状态的话，点击textinput之外地方，会进行隐藏键盘。
+反之不会有效果，键盘还是成打开状态。
+
+6.onContentSizeChange  function  该当滚动视图的内容尺寸大小发生变化的时候进行调用
+
+7.onScroll  function  该方法在滚动的时候每frame(帧)调用一次。该方法事件调用的频率可以使用scrollEventThrottle属性进行设置。
+
+8.refreshControl   element 设置元素控件，该可以进行指定RefreshControl组件。这样可以为ScrollView添加下拉刷新的功能.
+
+9.removeClippedSubviews  测试属性 当该值为true的时候。在ScrollView视图之外的视图(该视图的overflow属性值必须要为hidden)会从被暂时移除，该设置可以提高滚动的性能。
+
+10.showsHorizontalScrollIndicator   该值设置是否需要显示横向滚动指示条
+
+11.showsVerticalScrollIndicator 该值设置是否需要显示纵向滚动指示条
+
+12.sendMomentumEvents   当ScrollView有onMomentumScrollBegin或者onMomentumScrollEnd方法设置，该sendMomentumEvents值设置为true的时候。变化的事件信息会通过该Android
+框架自动发送出来，然后之前设置的方法进行捕捉。
+
